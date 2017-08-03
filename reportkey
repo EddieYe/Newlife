@@ -1,0 +1,25 @@
+using System;
+using System.Web.UI;
+
+
+public partial class Account:System.Web.UI.Page{
+
+protected void Page_Load(object sender, EventArgs e)
+    {
+        //获得传过来的reportkey,如果为空提示用户选择报表
+        if (Request.QueryString["reportkey"] == null)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), " message", "<script language='javascript' >alert('请选择一个报表！');</script>");
+            return;
+
+        }
+        //如果不为空，利用response重定向到报表URL
+        else
+        {
+            string reportkey = Request.QueryString["reportkey"];
+            string reportpath = System.Configuration.ConfigurationManager.AppSettings[reportkey].ToString();
+            Response.Redirect(reportpath);
+        }
+
+    }
+}
